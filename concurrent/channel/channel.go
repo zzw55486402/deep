@@ -31,6 +31,11 @@ func UseChannel() {
 	close(ch)
 forEach:
 	for {
+		/*
+			select 用来遍历channel 如果channel无响应则看有没有default
+			如果有default 那么就去走default 如果没有就一直等待 直到某个channel响应
+			select是一次性的 如果想监听channel多次需要配合for循环
+		*/
 		select {
 		case val, ok := <-ch:
 			if !ok {
@@ -38,7 +43,7 @@ forEach:
 			}
 			fmt.Println("数字：", val[0], "值：", val[1])
 		default:
-
+			fmt.Println("default")
 		}
 	}
 	end := time.Since(start)
